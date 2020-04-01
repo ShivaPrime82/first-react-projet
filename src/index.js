@@ -1,5 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'; // const React = require("react"); pour common js
+import ReactDOM from 'react-dom'; // const ReactDOM = require("react-dom");
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
