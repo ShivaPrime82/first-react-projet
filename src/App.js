@@ -1,11 +1,11 @@
 import React from 'react';
-//import CreateArticle from './CreateArticle';
-import DeleteArticle from './DeleteArticle';
+import CreateArticle from './CreateArticle';
+//import DeleteArticle from './DeleteArticle';
 
 const App = () => {
     return (
         <div>
-            <DeleteArticle />
+            <CreateArticle />
         </div>
     );
 }
