@@ -4,7 +4,7 @@ const DeleteArticle = () => {
     const [id, setId] = useState("");
 
     const handleSubmit = (event) => {
-        event.preventDefault;
+        event.preventDefault();
         console.log("Id : ", id);
     }
 
@@ -21,9 +21,11 @@ const DeleteArticle = () => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <label>ID de l'article</label>
-            <input type="number" name="id" onChance={handleChange} value={id} placeholder="Supprimer l'article"></input>
-            <button type="submit">Supprimer l'article</button>
+            <div>
+                <label>ID de l'article</label>
+                <input type="number" name="id" onChange={handleChange} value={id} placeholder="Supprimer l'article" />
+                <button type="submit">Supprimer l'article</button>
+            </div>
         </form>
     );
 }
