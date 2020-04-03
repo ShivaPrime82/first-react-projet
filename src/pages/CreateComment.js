@@ -17,7 +17,6 @@ const CreateComment = () => {
         console.log("Content :", content);
         console.log("Author : ", author);
         console.log("Id Article : ", idArticle);
-
     }
 
     const handleChange = (event) => {
@@ -80,7 +79,7 @@ const CreateComment = () => {
                         type="number"
                         name="idArticle"
                         onChange={handleChange}
-                        value={author}
+                        value={idArticle}
                         placeholder="Id de l'article" />
                 </Form.Group>
                 <Button variant="primary" type="submit">Créer un commentaire</Button>
