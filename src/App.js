@@ -5,7 +5,7 @@ import {
     Route,
 } from 'react-router-dom';
 
-import NavBar from './compoments/NavBar';
+import Navigation from './compoments/Navigation';
 
 import Home from './pages/Home';
 import CreateArticle from './pages/CreateArticle';
@@ -18,7 +18,7 @@ const App = () => {
     return (
 
         <Router>
-            <NavBar />
+            <Navigation />
             <Switch>
                 <Route exact path="/" component={Home} />
                 <Route path="/articles/create" component={CreateArticle} />
