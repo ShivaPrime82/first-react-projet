@@ -4,7 +4,6 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
-
 const CreateArticle = () => {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
@@ -12,24 +11,36 @@ const CreateArticle = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log("Titre :", title);
-        console.log("Content :", content);
-        console.log("Author : ", author);
-    }
+
+        fetch('http://localhost:3001/api/articles/create', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+                title,
+                content,
+                author,
+            }),
+        })
+            .then((result) => {
+                return result.json();
+            })
+            .then(({ status }) => {
+                if (status === "OK") {
+                    setTitle("");
+                    setContent("");
+                    setAuthor("");
+                }
+                console.log(status);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
 
     const handleChange = (event) => {
-        console.log("Target Name :", event.target.name);
-        console.log("Target Value :", event.target.value);
-
-        /*    if (event.target.name === "title") {
-                setTitle(event.target.value);
-            } else if (event.target.name === "content") {
-                setContent(event.target.value);
-            } else {
-                setAuthor(event.target.value);
-            }
-        */ // Soit le if soit le switch mais les deux fonctionnes
-
         switch (event.target.name) {
             case "title":
                 setTitle(event.target.value);

@@ -13,7 +13,6 @@ const DeleteArticle = () => {
     }
 
     const handleChange = (event) => {
-
         switch (event.target.name) {
             case "id":
                 setId(event.target.value);
