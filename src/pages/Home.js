@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 
 import { formatDate } from '../utils/date';
 
-import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
 import CardDeck from 'react-bootstrap/CardDeck';
+import Card from 'react-bootstrap/Card';
 
 const Home = () => {
     const [articles, setArticles] = useState([]);
@@ -23,7 +23,7 @@ const Home = () => {
             })
             .catch((error) => {
                 console.log("error : ", error);
-            })
+            });
     }, []);
 
     const renderedArticles = articles.map((article) => {
@@ -36,18 +36,18 @@ const Home = () => {
                     </Card.Title>
                 </Card.Header>
                 <Card.Body>
-                    <Card.Text as="p">
+                    <Card.Text>
                         {content}
                     </Card.Text>
                 </Card.Body>
                 <Card.Footer>
                     <small className="text-muted">
-                        Créer le&nbsp;
+                        créé le&nbsp;
                         {formatDate(created_at)}&nbsp;
-                        par {authorFirstname}&nbsp;{authorLastname.substring(0, 1).toUpperCase()}.
+                        par&nbsp;{authorFirstname}&nbsp;{authorLastname.substring(0, 1)}.
                     </small>
                 </Card.Footer>
-            </Card >
+            </Card>
         );
     });
 
@@ -60,6 +60,6 @@ const Home = () => {
             </CardDeck>
         </Container>
     );
-}
+};
 
 export default Home;
