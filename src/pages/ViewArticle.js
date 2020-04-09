@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { formatDate } from '../utils/date';
 
 import Container from 'react-bootstrap/Container';
+import { toast } from 'react-toastify';
 
 const ViewArticle = ({ match }) => {
     const { id } = match.params;
@@ -11,12 +12,20 @@ const ViewArticle = ({ match }) => {
     useEffect(() => {
         fetch('http://localhost:3001/api/article?id=' + id)
             .then((result) => {
-                console.log(result.status);
+                return result.json();
+            })
+            .then(({ status, article }) => {
+                if (status === "OK") {
+                    setArticle(article);
+                } else {
+                    toast.error("Oups ... Nous avons eu une erreur !");
+                }
             })
             .catch((error) => {
-                console.log(error)
+                toast.error("Oups ... Nous avons eu une erreur !");
+                console.log(error);
             })
-    }, [])
+    }, [id])
 
     return (
         <Container>
