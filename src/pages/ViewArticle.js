@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 
 import { formatDate } from '../utils/date';
 
+import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
 import { toast } from 'react-toastify';
-import Card from 'react-bootstrap/Card';
 
 const ViewArticle = ({ match }) => {
     const { id } = match.params;
     const [article, setArticle] = useState({});
+
+    const [comments, setComments] = useState([]);
 
     useEffect(() => {
         fetch('http://localhost:3001/api/article?id=' + id)
@@ -26,11 +28,7 @@ const ViewArticle = ({ match }) => {
                 toast.error("Oups ... Nous avons eu une erreur !");
                 console.log(error);
             })
-    }, [id])
 
-    const [comments, setComments] = useState([]);
-
-    useEffect(() => {
         fetch('http://localhost:3001/api/comments')
             .then((result) => {
                 return result.json();
@@ -49,9 +47,9 @@ const ViewArticle = ({ match }) => {
     }, [id])
 
     const renderedComments = comments.map((comments) => {
-        const { id, content, created_at, authorFirstname, authorLastname } = comments;
+        const { content, created_at, authorFirstname, authorLastname } = comments;
         return (
-            <Card key={id}>
+            <Card>
                 <Card.Body>
                     <Card.Text>
                         {content}
@@ -61,7 +59,7 @@ const ViewArticle = ({ match }) => {
                     <small className="text-muted">
                         créé le&nbsp;
                         {formatDate(created_at)}&nbsp;
-                        par&nbsp;{authorFirstname}&nbsp;{authorLastname.substring(0, 1).toUpperCase()}.
+                        par&nbsp;{authorFirstname}&nbsp;{authorLastname}.
                     </small>
                 </Card.Footer>
             </Card>
