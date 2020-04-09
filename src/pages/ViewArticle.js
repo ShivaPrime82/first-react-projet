@@ -9,7 +9,6 @@ import { toast } from 'react-toastify';
 const ViewArticle = ({ match }) => {
     const { id } = match.params;
     const [article, setArticle] = useState({});
-
     const [comments, setComments] = useState([]);
 
     useEffect(() => {
@@ -28,8 +27,10 @@ const ViewArticle = ({ match }) => {
                 toast.error("Oups ... Nous avons eu une erreur !");
                 console.log(error);
             })
+    }, [id])
 
-        fetch('http://localhost:3001/api/comments')
+    useEffect(() => {
+        fetch('http://localhost:3001/api/comments?id=' + id)
             .then((result) => {
                 return result.json();
             })
@@ -46,22 +47,22 @@ const ViewArticle = ({ match }) => {
             })
     }, [id])
 
-    const renderedComments = comments.map((comments) => {
-        const { content, created_at, authorFirstname, authorLastname } = comments;
+    const renderedComments = comments.map((comment) => {
+        const { content, created_at, authorFirstname, authorLastname } = comment;
         return (
-            <Card>
-                <Card.Body>
-                    <Card.Text>
-                        {content}
-                    </Card.Text>
-                </Card.Body>
-                <Card.Footer>
+            <Card key={content}>
+                <Card.Header>
                     <small className="text-muted">
                         créé le&nbsp;
                         {formatDate(created_at)}&nbsp;
                         par&nbsp;{authorFirstname}&nbsp;{authorLastname}.
                     </small>
-                </Card.Footer>
+                </Card.Header>
+                <Card.Body>
+                    <Card.Text>
+                        {content}
+                    </Card.Text>
+                </Card.Body>
             </Card>
         );
     });
