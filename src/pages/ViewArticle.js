@@ -6,7 +6,6 @@ import Container from 'react-bootstrap/Container';
 
 const ViewArticle = ({ match }) => {
     const { id } = match.params;
-    console.log(id);
     const [article, setArticle] = useState({});
 
     useEffect(() => {

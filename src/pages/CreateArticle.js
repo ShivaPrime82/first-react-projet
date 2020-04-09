@@ -95,7 +95,7 @@ const CreateArticle = () => {
                         name="author"
                         onChange={handleChange}
                         value={author}
-                        placeholder="id de l'auteur" />
+                        placeholder="ID de l'auteur" />
                 </Form.Group>
                 <Button variant="primary" type="submit">Créer l'article</Button>
             </Form>

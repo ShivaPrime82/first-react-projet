@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -12,15 +13,44 @@ const CreateComment = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log("Id Article : ", idArticle);
-        console.log("Content :", content);
-        console.log("Author : ", author);
-    }
+
+        fetch('http://localhost:3001/api/comments/create', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+                idArticle,
+                content,
+                author,
+            }),
+        })
+            .then((result) => {
+                return result.json();
+            })
+            .then(({ status, extra }) => {
+                if (status === "OK") {
+                    setIdArticle("");
+                    setContent("");
+                    setAuthor("");
+                    toast.success("Le commentaire a bien été ajouté");
+                } else {
+                    toast.error(
+                        <div>
+                            Oups ... Nous avons eu une erreur ! <br />
+                            {extra}
+                        </div>
+                    );
+                }
+            })
+            .catch((error) => {
+                toast.error("Oups ... Nous avons eu une erreur !");
+                console.log(error);
+            });
+    };
 
     const handleChange = (event) => {
-        console.log("Target Name :", event.target.name);
-        console.log("Target Value :", event.target.value);
-
         switch (event.target.name) {
             case "idArticle":
                 setIdArticle(event.target.value);
@@ -65,7 +95,7 @@ const CreateComment = () => {
                         name="author"
                         onChange={handleChange}
                         value={author}
-                        placeholder="id de l'auteur" />
+                        placeholder="ID de l'auteur" />
                 </Form.Group>
                 <Button variant="primary" type="submit">Créer un commentaire</Button>
             </Form>
