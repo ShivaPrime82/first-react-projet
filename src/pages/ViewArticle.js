@@ -4,6 +4,7 @@ import { formatDate } from '../utils/date';
 
 import Container from 'react-bootstrap/Container';
 import { toast } from 'react-toastify';
+import Card from 'react-bootstrap/Card';
 
 const ViewArticle = ({ match }) => {
     const { id } = match.params;
@@ -27,6 +28,46 @@ const ViewArticle = ({ match }) => {
             })
     }, [id])
 
+    const [comments, setComments] = useState([]);
+
+    useEffect(() => {
+        fetch('http://localhost:3001/api/comments')
+            .then((result) => {
+                return result.json();
+            })
+            .then(({ status, comments }) => {
+                if (status === "OK") {
+                    setComments(comments);
+                } else {
+                    toast.error("Oups ... Nous avons eu une erreur !");
+                }
+            })
+            .catch((error) => {
+                toast.error("Oups ... Nous avons eu une erreur !");
+                console.log(error);
+            })
+    }, [id])
+
+    const renderedComments = comments.map((comments) => {
+        const { id, content, created_at, authorFirstname, authorLastname } = comments;
+        return (
+            <Card key={id}>
+                <Card.Body>
+                    <Card.Text>
+                        {content}
+                    </Card.Text>
+                </Card.Body>
+                <Card.Footer>
+                    <small className="text-muted">
+                        créé le&nbsp;
+                        {formatDate(created_at)}&nbsp;
+                        par&nbsp;{authorFirstname}&nbsp;{authorLastname.substring(0, 1).toUpperCase()}.
+                    </small>
+                </Card.Footer>
+            </Card>
+        );
+    });
+
     return (
         <Container>
             <h1>{article.title}</h1>
@@ -38,7 +79,7 @@ const ViewArticle = ({ match }) => {
                 par {article.authorFirstname} {article.authorLastname}
             </p>
             <div>
-                Commentaire
+                {renderedComments}
             </div>
         </Container>
     );
