@@ -4,8 +4,9 @@ import { formatDate } from '../utils/date';
 import { toast } from 'react-toastify';
 import Card from 'react-bootstrap/Card';
 
-const ViewComments = ({ match }) => {
-    const { id } = match.params;
+const ViewComments = () => {
+
+    const [id, setId] = useState("");
     const [comments, setComments] = useState([]);
 
     useEffect(() => {
@@ -15,6 +16,7 @@ const ViewComments = ({ match }) => {
             })
             .then(({ status, comments }) => {
                 if (status === "OK") {
+                    setId("");
                     setComments(comments);
                 } else {
                     toast.error("Oups ... Nous avons eu une erreur !");

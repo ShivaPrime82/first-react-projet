@@ -8,6 +8,7 @@ import { ToastContainer } from 'react-toastify/';
 import 'react-toastify/dist/ReactToastify.min.css';
 
 import Navigation from './compoments/Navigation';
+import ViewComments from './compoments/ViewComments';
 
 import Home from './pages/Home';
 import CreateArticle from './pages/CreateArticle';
@@ -27,6 +28,7 @@ const App = () => {
                 <Route path="/articles/create" component={CreateArticle} />
                 <Route path="/articles/delete" component={DeleteArticle} />
                 <Route path="/article/:id" component={ViewArticle} />
+                <Route path="/comments/:id" component={ViewComments} />
                 <Route path="/comments/create" component={CreateComment} />
                 <Route path="/comments/delete" component={DeleteComment} />
                 <Route path="*" component={NotFound} />
