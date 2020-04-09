@@ -48,9 +48,9 @@ const ViewArticle = ({ match }) => {
     }, [id])
 
     const renderedComments = comments.map((comment) => {
-        const { content, created_at, authorFirstname, authorLastname } = comment;
+        const { id, content, created_at, authorFirstname, authorLastname } = comment;
         return (
-            <Card key={content}>
+            <Card key={id}>
                 <Card.Header>
                     <small className="text-muted">
                         créé le&nbsp;
