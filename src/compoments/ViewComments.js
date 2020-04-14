@@ -3,33 +3,34 @@ import React, { useState, useEffect } from 'react';
 import { formatDate } from '../utils/date';
 import { toast } from 'react-toastify';
 import Card from 'react-bootstrap/Card';
+import { ListGroup } from 'react-bootstrap';
+
 
 const ViewComments = () => {
-
-    const [id, setId] = useState("");
     const [comments, setComments] = useState([]);
+    const [id, setId] = useState("");
 
     useEffect(() => {
-        fetch('http://localhost:3001/api/comments?id=' + id)
+        fetch('http://localhost:3001/api/comments?article_id=' + id)
             .then((result) => {
                 return result.json();
             })
             .then(({ status, comments }) => {
                 if (status === "OK") {
-                    setId("");
                     setComments(comments);
                 } else {
                     toast.error("Oups ... Nous avons eu une erreur !");
                 }
             })
             .catch((error) => {
-                toast.error("Oups ... Nous avons eu une erreur !");
                 console.log(error);
+                toast.error("Oups ... Nous avons eu une erreur !");
             })
     }, [id])
 
     const renderedComments = comments.map((comment) => {
         const { id, content, created_at, authorFirstname, authorLastname } = comment;
+        setId(comment.id);
         return (
             <Card key={id}>
                 <Card.Header>
@@ -48,7 +49,14 @@ const ViewComments = () => {
         );
     });
 
-    return renderedComments;
+    return (
+        <ListGroup>
+            <h3>Dernière Commentaire</h3>
+            <ListGroup.Item>
+                {renderedComments}
+            </ListGroup.Item>
+        </ListGroup>
+    );
 }
 
 export default ViewComments;
