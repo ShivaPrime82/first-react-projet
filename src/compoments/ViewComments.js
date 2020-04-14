@@ -7,11 +7,10 @@ import { ListGroup } from 'react-bootstrap';
 
 
 const ViewComments = ({ article_id }) => {
-    const id = article_id;
     const [comments, setComments] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:3001/api/comments?id=' + id)
+        fetch('http://localhost:3001/api/comments?id=' + article_id)
             .then((result) => {
                 return result.json();
             })
@@ -26,7 +25,7 @@ const ViewComments = ({ article_id }) => {
                 console.log(error);
                 toast.error("Oups ... Nous avons eu une erreur !");
             })
-    }, [id])
+    }, [article_id])
 
     const renderedComments = comments.map((comment) => {
         const { id, content, created_at, authorFirstname, authorLastname } = comment;
