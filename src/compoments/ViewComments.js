@@ -6,12 +6,12 @@ import Card from 'react-bootstrap/Card';
 import { ListGroup } from 'react-bootstrap';
 
 
-const ViewComments = () => {
+const ViewComments = ({ article_id }) => {
+    const id = article_id;
     const [comments, setComments] = useState([]);
-    const [id, setId] = useState("");
 
     useEffect(() => {
-        fetch('http://localhost:3001/api/comments?article_id=' + id)
+        fetch('http://localhost:3001/api/comments?id=' + id)
             .then((result) => {
                 return result.json();
             })
@@ -30,7 +30,6 @@ const ViewComments = () => {
 
     const renderedComments = comments.map((comment) => {
         const { id, content, created_at, authorFirstname, authorLastname } = comment;
-        setId(comment.id);
         return (
             <Card key={id}>
                 <Card.Header>

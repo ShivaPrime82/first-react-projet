@@ -40,7 +40,7 @@ const ViewArticle = ({ match }) => {
                 par {article.authorFirstname} {article.authorLastname}
             </p>
             <div>
-                <ViewComments />
+                <ViewComments article_id={id} />
             </div>
         </Container>
     );
