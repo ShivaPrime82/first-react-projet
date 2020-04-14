@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
 import { formatDate } from '../utils/date';
+import CreateComment from "../compoments/CreateComment";
+
 import { toast } from 'react-toastify';
 import Card from 'react-bootstrap/Card';
-import { ListGroup } from 'react-bootstrap';
+import { ListGroup, Container } from 'react-bootstrap';
 
 
 const ViewComments = ({ article_id }) => {
@@ -16,7 +18,7 @@ const ViewComments = ({ article_id }) => {
             })
             .then(({ status, comments }) => {
                 if (status === "OK") {
-                    setComments(comments);
+                    setComments(comments.reverse()); // .reverse pour inverser l'affichage des commentaires
                 } else {
                     toast.error("Oups ... Nous avons eu une erreur !");
                 }
@@ -26,6 +28,12 @@ const ViewComments = ({ article_id }) => {
                 toast.error("Oups ... Nous avons eu une erreur !");
             })
     }, [article_id])
+
+    const handleCreate = (comment) => {
+        const newComments = [...comments];  // On copie notre tableau dans un autre tableau (Copie Profonde)
+        newComments.push(comment);          // On envoit notre tableau comment dans newComments
+        setComments(newComments);           // On actualise notre state setComments avec les données de newComments
+    }
 
     const renderedComments = comments.map((comment) => {
         const { id, content, created_at, authorFirstname, authorLastname } = comment;
@@ -48,12 +56,15 @@ const ViewComments = ({ article_id }) => {
     });
 
     return (
-        <ListGroup>
-            <h3>Dernière Commentaire</h3>
-            <ListGroup.Item>
+        <Container>
+            <h3>Dernièrs Commentaires</h3>
+            <ListGroup>
                 {renderedComments}
-            </ListGroup.Item>
-        </ListGroup>
+                <ListGroup.Item>
+                    <CreateComment article_id={article_id} onCreate={handleCreate} />
+                </ListGroup.Item>
+            </ListGroup>
+        </Container>
     );
 }
 
