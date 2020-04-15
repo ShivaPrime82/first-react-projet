@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
-
-import { formatDate } from '../utils/date';
-import CreateComment from "../compoments/CreateComment";
-
 import { toast } from 'react-toastify';
-import Card from 'react-bootstrap/Card';
 import { ListGroup, Container } from 'react-bootstrap';
 
+import CreateComment from "../compoments/CreateComment";
+import ViewComment from './ViewComment';
 
 const ViewComments = ({ article_id }) => {
     const [comments, setComments] = useState([]);
@@ -35,23 +32,20 @@ const ViewComments = ({ article_id }) => {
         setComments(newComments);           // On actualise notre state setComments avec les données de newComments
     }
 
+    const handleDelete = (commentId) => {
+        const newComments = comments.filter((comment) => {
+            return comment.id !== commentId;
+        })
+        setComments(newComments);
+    }
+
     const renderedComments = comments.map((comment) => {
-        const { id, content, created_at, authorFirstname, authorLastname } = comment;
         return (
-            <Card key={id}>
-                <Card.Header>
-                    <small className="text-muted">
-                        créé le&nbsp;
-                        {formatDate(created_at)}&nbsp;
-                        par&nbsp;{authorFirstname}&nbsp;{authorLastname}.
-                    </small>
-                </Card.Header>
-                <Card.Body>
-                    <Card.Text>
-                        {content}
-                    </Card.Text>
-                </Card.Body>
-            </Card>
+            <ViewComment
+                key={comment.id}
+                comment={comment}
+                onDelete={handleDelete}
+            />
         );
     });
 
