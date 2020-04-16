@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
+import { useCookies } from 'react-cookie';
 import { Container, Form, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 
 const Signin = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    // eslint-disable-next-line
+    const [cookies, setCookie] = useCookies();
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -41,6 +45,8 @@ const Signin = () => {
             .then(({ status, extra, infos }) => {
                 if (status === "OK") {
                     console.log(infos);
+                    setCookie("userToken", infos.userToken);
+                    setCookie("user", infos.user)
                     toast.success("Bienvenue !");
                 } else {
                     toast.error(
