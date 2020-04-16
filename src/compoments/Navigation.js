@@ -18,6 +18,9 @@ const Navigation = () => {
             <Nav.Item>
                 <Nav.Link as={NavLink} to="/signin">Connection</Nav.Link>
             </Nav.Item>
+            <Nav.Item>
+                <Nav.Link as={NavLink} to="/inscription">Inscription</Nav.Link>
+            </Nav.Item>
         </Nav>
     );
 }
