@@ -4,6 +4,7 @@ import {
     Switch,
     Route,
 } from 'react-router-dom';
+import { CookiesProvider } from 'react-cookie';
 import { ToastContainer } from 'react-toastify/';
 import 'react-toastify/dist/ReactToastify.min.css';
 
@@ -17,22 +18,24 @@ import DeleteArticle from './pages/DeleteArticle';
 import ViewArticle from './pages/ViewArticle';
 import NotFound from './pages/NotFound';
 
+
 const App = () => {
     return (
-
-        <Router>
-            <Navigation />
-            <Switch>
-                <Route exact path="/" component={Home} />
-                <Route path="/signin" component={Signin} />
-                <Route path="/inscription" component={CreateUsers} />
-                <Route path="/articles/create" component={CreateArticle} />
-                <Route path="/articles/delete" component={DeleteArticle} />
-                <Route path="/article/:id" component={ViewArticle} />
-                <Route path="*" component={NotFound} />
-            </Switch>
-            <ToastContainer />
-        </Router>
+        <CookiesProvider>
+            <Router>
+                <Navigation />
+                <Switch>
+                    <Route exact path="/" component={Home} />
+                    <Route path="/signin" component={Signin} />
+                    <Route path="/inscription" component={CreateUsers} />
+                    <Route path="/articles/create" component={CreateArticle} />
+                    <Route path="/articles/delete" component={DeleteArticle} />
+                    <Route path="/article/:id" component={ViewArticle} />
+                    <Route path="*" component={NotFound} />
+                </Switch>
+                <ToastContainer />
+            </Router>
+        </CookiesProvider>
     );
 }
 

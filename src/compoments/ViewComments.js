@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useCookies } from 'react-cookie';
 import { toast } from 'react-toastify';
 import { ListGroup, Container } from 'react-bootstrap';
 
@@ -6,6 +7,8 @@ import CreateComment from "../compoments/CreateComment";
 import ViewComment from './ViewComment';
 
 const ViewComments = ({ article_id }) => {
+    // eslint-disable-next-line
+    const [cookies, setCookie] = useCookies();
     const [comments, setComments] = useState([]);
 
     useEffect(() => {
@@ -49,14 +52,22 @@ const ViewComments = ({ article_id }) => {
         );
     });
 
+    const renderCreateComment = () => {
+        if (cookies.userToken) {
+            return (
+                <ListGroup.Item>
+                    <CreateComment article_id={article_id} onCreate={handleCreate} />
+                </ListGroup.Item>
+            );
+        }
+    }
+
     return (
         <Container>
             <h3>Dernièrs Commentaires</h3>
             <ListGroup>
                 {renderedComments}
-                <ListGroup.Item>
-                    <CreateComment article_id={article_id} onCreate={handleCreate} />
-                </ListGroup.Item>
+                {renderCreateComment()}
             </ListGroup>
         </Container>
     );

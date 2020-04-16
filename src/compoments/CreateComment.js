@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useCookies } from 'react-cookie';
 import { toast } from 'react-toastify';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -6,7 +7,9 @@ import Button from 'react-bootstrap/Button';
 
 const CreateComment = ({ article_id, onCreate }) => {
     const [content, setContent] = useState("");
-    const [author, setAuthor] = useState("");
+
+    // eslint-disable-next-line
+    const [cookies, setCookie] = useCookies();
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -20,7 +23,7 @@ const CreateComment = ({ article_id, onCreate }) => {
             body: JSON.stringify({
                 idArticle: article_id,
                 content,
-                author,
+                author: cookies.user.id,
             }),
         })
             .then((result) => {
@@ -33,12 +36,12 @@ const CreateComment = ({ article_id, onCreate }) => {
                         content,
                         article_id,
                         created_at: new Date(),
-                        authorFirstname: "Jérémy",
-                        authorLastname: "Clair",
+                        authorId: cookies.user.id,
+                        authorFirstname: cookies.user.firstname,
+                        authorLastname: cookies.user.lastname,
                     });
 
                     setContent("");
-                    setAuthor("");
                 } else {
                     toast.error(
                         <div>
@@ -59,9 +62,6 @@ const CreateComment = ({ article_id, onCreate }) => {
             case "content":
                 setContent(event.target.value);
                 break;
-            case "author":
-                setAuthor(event.target.value);
-                break;
             default:
                 break;
         }
@@ -77,16 +77,6 @@ const CreateComment = ({ article_id, onCreate }) => {
                     onChange={handleChange}
                     value={content}
                     placeholder="Contenu du commentaire"
-                />
-            </Form.Group>
-            <Form.Group controlId="comment.author">
-                <Form.Label>ID de l'auteur</Form.Label>
-                <Form.Control
-                    type="number"
-                    name="author"
-                    onChange={handleChange}
-                    value={author}
-                    placeholder="ID de l'auteur"
                 />
             </Form.Group>
             <Button variant="primary" type="submit">Créer un commentaire</Button>

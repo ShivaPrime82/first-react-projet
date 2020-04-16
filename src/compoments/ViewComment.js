@@ -1,4 +1,5 @@
 import React from 'react';
+import { useCookies } from 'react-cookie';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import { toast } from 'react-toastify';
@@ -7,7 +8,9 @@ import { formatDate } from '../utils/date';
 import { FaTrash } from 'react-icons/fa';
 
 const ViewComment = ({ comment, onDelete }) => {
-    const { id, content, created_at, authorFirstname, authorLastname } = comment;
+    const { id, content, authorId, created_at, authorFirstname, authorLastname } = comment;
+    // eslint-disable-next-line
+    const [cookies, setCookies] = useCookies();
 
     const handleClick = () => {
         fetch('http://localhost:3001/api/comments/delete', {
@@ -42,6 +45,19 @@ const ViewComment = ({ comment, onDelete }) => {
             });
     }
 
+    const renderTrashButton = () => {
+        const user = cookies.user || {};
+        console.log("Utilisateur connecté : " + cookies.user);
+        console.log("Id de l'auteur du commentaire : " + authorId);
+        if (user.id === authorId) {
+            return (
+                <Button variant="outline-danger">
+                    <FaTrash onClick={handleClick} />
+                </Button>
+            );
+        }
+    };
+
     return (
         <Card>
             <Card.Header>
@@ -50,9 +66,7 @@ const ViewComment = ({ comment, onDelete }) => {
                     {formatDate(created_at)}&nbsp;
                     par&nbsp;{authorFirstname}&nbsp;{authorLastname}.
                 </small>
-                <Button variant="outline-danger">
-                    <FaTrash onClick={handleClick} />
-                </Button>
+                {renderTrashButton()}
             </Card.Header>
             <Card.Body>
                 <Card.Text className="text-justify">
