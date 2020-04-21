@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useCookies } from 'react-cookie';
 import { toast } from 'react-toastify';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -6,6 +7,9 @@ import Button from 'react-bootstrap/Button';
 
 const DeleteArticle = () => {
     const [id, setId] = useState("");
+
+    // eslint-disable-next-line
+    const [cookies, setCookies] = useCookies();
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -15,6 +19,7 @@ const DeleteArticle = () => {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
+                'X-Auth-Token': cookies.userToken,
             },
             body: JSON.stringify({
                 id,

@@ -20,11 +20,11 @@ const CreateArticle = () => {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
+                'X-Auth-Token': cookies.userToken,
             },
             body: JSON.stringify({
                 title,
                 content,
-                author: cookies.user.id,
             }),
         })
             .then((result) => {

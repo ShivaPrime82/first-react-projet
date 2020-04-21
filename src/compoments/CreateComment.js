@@ -19,11 +19,11 @@ const CreateComment = ({ article_id, onCreate }) => {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
+                'X-Auth-Token': cookies.userToken,
             },
             body: JSON.stringify({
                 idArticle: article_id,
                 content,
-                author: cookies.user.id,
             }),
         })
             .then((result) => {

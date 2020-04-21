@@ -18,6 +18,7 @@ const ViewComment = ({ comment, onDelete }) => {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
+                'X-Auth-Token': cookies.userToken,
             },
             body: JSON.stringify({
                 id,
